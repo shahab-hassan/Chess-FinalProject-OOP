@@ -1,7 +1,6 @@
 package com.example.finalproject;
 
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -129,7 +128,11 @@ public class Block implements EventHandler<MouseEvent> {
         // Killing Piece or Castling:
         else if (this.piece != null && this.label.getBorder() != null) {
             if (this.piece.isBlack != Game.blocks[Move.selectedRow][Move.selectedCol].piece.isBlack) {
-                GameSounds.captureSound();
+                if(this.piece.isBlack)
+                    ChessStage.kills.blackKilledPieces[ChessStage.kills.blackKillsCount++] = this.piece;
+                else
+                    ChessStage.kills.whiteKilledPieces[ChessStage.kills.whiteKillsCount++] = this.piece;
+                Sounds.captureSound();
                 Game.move.movePiece(this.row, this.col);
             } else
                 unSelectAllBlocks();

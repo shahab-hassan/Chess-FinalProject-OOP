@@ -3,8 +3,10 @@ package com.example.finalproject;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.io.File;
+import java.net.URL;
 
 public class Game extends Application {
 
@@ -12,8 +14,11 @@ public class Game extends Application {
     static Move move = new Move();
     static ChessBoard chessBoard = new ChessBoard();
     static Group root = new Group();
-    static ChessStage stage = new ChessStage();
+    static ChessStage myStage = new ChessStage();
+    static SplashScreen splashScreen = new SplashScreen();
+    static Stockfish stockfish = new Stockfish();
     static Scene scene;
+    static Stage primaryStage;
 
     public static void main(String[] args) {
         launch(args);
@@ -21,13 +26,16 @@ public class Game extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        chessBoard.initializeBlocks();
-        chessBoard.startGame();
-        chessBoard.updateChessBoard();
-        root.getChildren().add(chessBoard.board);
+        Game.primaryStage = primaryStage;
+        primaryStage.setScene(splashScreen.logoScene());
+
+        // Adding own Scene:
         scene = new Scene(root, MyDimensions.frameWidth, MyDimensions.frameHeight);
         scene.setFill(MyColors.darkBlockDefault);
-        primaryStage.setScene(scene);
+        // Loading CSS:
+        URL urlCss = new File("src/application.css").toURI().toURL();
+        scene.getStylesheets().add(urlCss.toString());
+
         primaryStage.show();
     }
 }

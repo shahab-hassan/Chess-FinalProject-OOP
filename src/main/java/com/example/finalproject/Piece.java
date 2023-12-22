@@ -19,4 +19,7 @@ class Piece {
         this.icon.setFitHeight(38);
         this.icon.setFitWidth(38);
     }
+    void setType(PieceType type){
+        this.type = type;
+    }
 }

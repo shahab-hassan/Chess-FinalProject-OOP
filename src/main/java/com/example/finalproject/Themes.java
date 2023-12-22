@@ -1,10 +1,6 @@
 package com.example.finalproject;
 
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
@@ -35,22 +31,22 @@ public class Themes implements EventHandler<MouseEvent> {
     public void handle(MouseEvent e){
         if(e.getSource() == grayBtn){
             applyGrayTheme();
-            Game.stage.updateStage();
+            Game.myStage.updateStage();
         }
         else if(e.getSource() == greenBtn){
             applyGreenTheme();
-            Game.stage.updateStage();
+            Game.myStage.updateStage();
         }
         else if(e.getSource() == blueBtn){
             applyBlueTheme();
-            Game.stage.updateStage();
+            Game.myStage.updateStage();
         }
         else{
             applyRedTheme();
-            Game.stage.updateStage();
+            Game.myStage.updateStage();
         }
-//        ChessFrame.clock.getBlackClock().setBackground(MyColors.clockBgDefault);
-//        ChessFrame.clock.getWhiteClock().setBackground(MyColors.clockBgDefault);
+        ChessStage.clock.getBlackClock().setBackground(Utilities.applyBackground(MyColors.clockBgDefault));
+        ChessStage.clock.getWhiteClock().setBackground(Utilities.applyBackground(MyColors.clockBgDefault));
     }
     void applyGrayTheme(){
         MyColors.darkBlockDefault = MyColors.darkBlockGray;

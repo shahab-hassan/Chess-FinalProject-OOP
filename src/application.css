@@ -1,0 +1,32 @@
+.blackClockLabel, .whiteClockLabel{
+    -fx-font-size: 20px;
+    -fx-font-family: "Helvetica";
+    -fx-font-weight: bold;
+    -fx-text-fill: "black";
+    -fx-border-color: "black";
+    -fx-border-width: 2px;
+    -fx-alignment: center;
+}
+.noKillsYetLabel{
+    -fx-font-size: 15px;
+    -fx-font-family: "Helvetica";
+    -fx-font-weight: bold;
+    -fx-text-fill: "black";
+}
+.startGameBtn, .startGameBtnHover{
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0,0 0 6 0,0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color: linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%), #9d4024, #d86e3a, radial-gradient(center 50% 50%, radius 100%, #d96e3a, #c54e2c);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.75), 4, 0, 0, 1);
+    -fx-font-weight: bold;
+    -fx-font-size: 1.8em;
+    -fx-min-width: 250px;
+    -fx-min-height: 80px;
+    -fx-max-width: 350px;
+    -fx-max-height: 120px;
+    -fx-text-fill: "white";
+}
+.startGameBtnHover{
+    -fx-background-color: linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%), #9d4024, #d86e3a, radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}

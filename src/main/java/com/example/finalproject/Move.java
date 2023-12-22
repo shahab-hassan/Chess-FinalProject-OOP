@@ -1,5 +1,8 @@
 package com.example.finalproject;
 
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+
 import java.util.ArrayList;
 
 class Move{
@@ -62,46 +65,61 @@ class Move{
         return !isKingCheck;
     }
 
-//    Piece promptForPromotionChoice(boolean isBlack) {
-//        Object[] options = { "Queen", "Rook", "Bishop", "Knight" };
-//        int choice = JOptionPane.showOptionDialog(null, "Select a piece to promote your pawn:", "Promotion", JOptionPane.YES_NO_OPTION, JOptionPane.PLAIN_MESSAGE, null, options, 0);
-//
-//        if (choice == 0) {
-//            return new Piece(PieceType.queen, isBlack,32);
-//        } else if (choice == 1) {
-//            return new Piece(PieceType.rook, isBlack,32);
-//        } else if (choice == 2) {
-//            return new Piece(PieceType.bishop, isBlack,32);
-//        } else {
-//            return new Piece(PieceType.knight, isBlack,32);
-//        }
-//    }
+    Piece promptForPromotionChoice(boolean isBlack) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Promotion");
+        alert.setHeaderText("Select a piece to promote your pawn:");
+        alert.setContentText(null);
+        alert.initOwner(Game.primaryStage);
+        ButtonType queen = new ButtonType("Queen");
+        ButtonType rook = new ButtonType("Rook");
+        ButtonType bishop = new ButtonType("Bishop");
+        ButtonType knight = new ButtonType("Knight");
+        alert.getButtonTypes().setAll(queen, rook, bishop, knight);
+        Piece piece = new Piece(PieceType.QUEEN, isBlack, 32);
+        alert.showAndWait().ifPresent(buttonType -> {
+            if (buttonType == queen)
+                piece.setType(PieceType.QUEEN);
+            else if (buttonType == rook)
+                piece.setType(PieceType.ROOK);
+            else if (buttonType == bishop)
+                piece.setType(PieceType.BISHOP);
+            else
+                piece.setType(PieceType.KNIGHT);
+        });
+        piece.updatePiece();
+        return piece;
+    }
 
     void movePiece(int toRow, int toCol){
         Block selectedBlock = Game.blocks[selectedRow][selectedCol];
         Block destinationBlock = Game.blocks[toRow][toCol];
         destinationBlock.setPiece(selectedBlock.getPiece());
         selectedBlock.setPiece(null);
-//        if (destinationBlock.getPiece().type == PieceType.PAWN && ((toRow == 0) || (toRow == 7))) {
-//            Piece promotionPiece = promptForPromotionChoice(destinationBlock.getPiece().isBlack);
-//            destinationBlock.setPiece(promotionPiece);
-//        }
-//        else
-            GameSounds.movePieceSound();
-        Game.chessBoard.isBlackTurn = !Game.chessBoard.isBlackTurn;
-        Game.stage.updateStage();
-
-        if(GameOver.isCheckMate()){
-            GameSounds.gameEndSound();
-//            String winner = Game.chessBoard.isBlackTurn? "White":"Black";
-//            String responses[] = {"Play Again", "Close"};
-//            int answer = JOptionPane.showOptionDialog(null, winner + " wins the game", "Check Mate", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null, responses, 0);
-//            if(answer == 0){
-//                Game.chessBoard.restartGame();
-//            }
-//            else
-//                Game.frame.dispose();
+        if (destinationBlock.getPiece().type == PieceType.PAWN && ((toRow == 0) || (toRow == 7))) {
+            Piece promotionPiece = promptForPromotionChoice(destinationBlock.getPiece().isBlack);
+            destinationBlock.setPiece(promotionPiece);
+            Sounds.promoteSound();
         }
+        Game.chessBoard.isBlackTurn = !Game.chessBoard.isBlackTurn;
+        ChessStage.clock.stopBothClocks();
+        ChessStage.clock.startClock(Game.chessBoard.isBlackTurn);
+        Game.myStage.updateStage();
+        if(Game.chessBoard.ai && Game.chessBoard.isBlackTurn){
+            StockfishWorker worker = new StockfishWorker();
+            Thread thread = new Thread(worker);
+            thread.setDaemon(true);
+            thread.start();
+        }
+        if(GameOver.isCheckMate()){
+            ChessStage.clock.stopBothClocks();
+            Sounds.gameEndSound();
+            Utilities.showGameOverAlert("Game Over!");
+        }
+        else if(GameOver.isKingInCheck(Game.chessBoard.isBlackTurn))
+            Sounds.moveCheckSound();
+        else
+            Sounds.movePieceSound();
     }
 
     ArrayList<int[]> calculateRookMoves(Block block){

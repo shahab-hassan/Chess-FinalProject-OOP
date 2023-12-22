@@ -32,4 +32,7 @@ class GameOver {
         }
         return true;
     }
+    static boolean isTimeOver() {
+        return ChessStage.clock.elapsedTime1==0 || ChessStage.clock.elapsedTime2==0;
+    }
 }

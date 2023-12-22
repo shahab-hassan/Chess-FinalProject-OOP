@@ -1,30 +1,33 @@
 package com.example.finalproject;
 
 public class MyDimensions{
+    // Frame:
     static double frameWidth = 1200;
     static double frameHeight = 750;
+    // Board:
     static double boardWidth = frameWidth/1.5;
     static double boardHeight = frameHeight;
     static double boardX = 0;
     static double boardY = 0;
-    static double whiteKillsPanelX = 0;
-    static double whiteKillsPanelY = 10;
-    static double whiteKillsPanelWidth = boardWidth;
-    static double whiteKillsPanelHeight = 40;
-    static double blackKillsPanelX = 0;
-    static double blackKillsPanelY = frameHeight-90;
-    static double blackKillsPanelWidth = boardWidth;
+    // Clock:
+    static double clockWidth = 120;
+    static double clockHeight = 45;
+    static double blackClockX = boardWidth + 30;
+    static double blackClockY =  30;
+    static double whiteClockX = boardWidth + 30;
+    static double whiteClockY = frameHeight - 30 - clockHeight;
+    // Kills:
     static double blackKillsPanelHeight = 40;
-
-    static double blackClockX = boardWidth - 100;
-    static double blackClockY = boardY - 60;
-    static double whiteClockX = boardWidth - 100;
-    static double whiteClockY = frameHeight-150;
-
-    static double clockWidth = 80;
-    static double clockHeight = 40;
-    static double themeContainerX = boardWidth+25;
-    static double themeContainerY = frameHeight-100;
+    static double blackKillsPanelWidth = 340;
+    static double whiteKillsPanelHeight = 40;
+    static double whiteKillsPanelWidth = 340;
+    static double whiteKillsPanelX = boardWidth+30;
+    static double whiteKillsPanelY = whiteClockY - whiteKillsPanelHeight-10;
+    static double blackKillsPanelX = whiteKillsPanelX;
+    static double blackKillsPanelY = blackClockY + blackKillsPanelHeight + 20;
+    // Themes:
+    static double themeContainerX = boardWidth+30;
+    static double themeContainerY = frameHeight-215;
     static double themeContainerWidth = Double.MAX_VALUE;
-    static double themeContainerHeight = 100;
+    static double themeContainerHeight = 20;
 }
