@@ -14,12 +14,21 @@ import javafx.util.Duration;
 public class Clock {
     private Label blackClock;
     private Label whiteClock;
-    int elapsedTime1 = 600000;
-    int elapsedTime2 = 600000;
-    String timeString ;
+    int originalMinutes = 10;
+    int blackhours = 0;
+    int blackMinutes = originalMinutes;
+    int blackSeconds = 0;
+    int whitehours = 0;
+    int whiteMinutes = originalMinutes;
+    int whiteSeconds = 0;
+    int elapsedTime1 = originalMinutes*60*1000;
+    int elapsedTime2 = originalMinutes*60*1000;
+    String blackTimeString;
+    String whiteTimeString;
 
     Clock() {
-        timeString= String.format("%02d:%02d:%02d", 10, 0, 0);
+        blackTimeString= String.format("%02d:%02d:%02d", 0, originalMinutes, 0);
+        whiteTimeString = String.format("%02d:%02d:%02d", 0, originalMinutes, 0);
         blackClock = new Label();
         whiteClock = new Label();
         initializeBlackClock();
@@ -27,7 +36,7 @@ public class Clock {
     }
 
     void initializeBlackClock(){
-        blackClock.setText(timeString);
+        blackClock.setText(blackTimeString);
         blackClock.getStyleClass().add("blackClockLabel");
         blackClock.setLayoutX(MyDimensions.blackClockX);
         blackClock.setLayoutY(MyDimensions.blackClockY);
@@ -35,7 +44,7 @@ public class Clock {
         blackClock.setBackground(Utilities.applyBackground(MyColors.clockBgDefault));
     }
     void initializeWhiteClock(){
-        whiteClock.setText(timeString);
+        whiteClock.setText(whiteTimeString);
         whiteClock.getStyleClass().add("whiteClockLabel");
         whiteClock.setLayoutX(MyDimensions.whiteClockX);
         whiteClock.setLayoutY(MyDimensions.whiteClockY);
@@ -57,8 +66,8 @@ public class Clock {
             int hours = (elapsedTime1 / 3600000);
             int minutes = (elapsedTime1 / 60000) % 60;
             int seconds = (elapsedTime1 / 1000) % 60;
-            timeString = String.format("%02d:%02d:%02d", hours, minutes, seconds);
-            blackClock.setText(timeString);
+            blackTimeString = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+            blackClock.setText(blackTimeString);
         }else{
             stopBothClocks();
             timeEnd();
@@ -70,8 +79,8 @@ public class Clock {
             int hours = (elapsedTime2 / 3600000);
             int minutes = (elapsedTime2 / 60000) % 60;
             int seconds = (elapsedTime2 / 1000) % 60;
-            timeString = String.format("%02d:%02d:%02d", hours, minutes, seconds);
-            whiteClock.setText(timeString);
+            whiteTimeString = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+            whiteClock.setText(whiteTimeString);
         }else{
             stopBothClocks();
             timeEnd();
@@ -81,7 +90,8 @@ public class Clock {
         if(GameOver.isTimeOver()) {
             Sounds.gameEndSound();
             Platform.runLater(() -> {
-                Utilities.showGameOverAlert("Times Up!");
+                String winner = Game.chessBoard.isBlackTurn? "White":"Black";
+                Alerts.showGameOverAlert("Times Up!", winner + " wins the game... Play Again?");
             });
         }
     }
@@ -100,10 +110,22 @@ public class Clock {
         timer2.stop();
     }
     void resetClock(){
-        whiteClock.setText(String.format("%02d:%02d:%02d", 10, 0, 0));
-        blackClock.setText(String.format("%02d:%02d:%02d", 10, 0, 0));
-        elapsedTime1=600000;
-        elapsedTime2=600000;
+        blackClock.setText(String.format("%02d:%02d:%02d", 0, originalMinutes, 0));
+        whiteClock.setText(String.format("%02d:%02d:%02d", 0, originalMinutes, 0));
+        elapsedTime1=originalMinutes*60*1000;
+        elapsedTime2=originalMinutes*60*1000;
         stopBothClocks();
+    }
+    void setHoursMinutesSeconds(){
+        blackhours = (elapsedTime1 / 3600000);
+        blackMinutes = (elapsedTime1 / 60000) % 60;
+        blackSeconds = (elapsedTime1 / 1000) % 60;
+        blackTimeString = String.format("%02d:%02d:%02d", blackhours, blackMinutes, blackSeconds);
+        blackClock.setText(blackTimeString);
+        whitehours = (elapsedTime2 / 3600000);
+        whiteMinutes = (elapsedTime2 / 60000) % 60;
+        whiteSeconds = (elapsedTime2 / 1000) % 60;
+        whiteTimeString = String.format("%02d:%02d:%02d", whitehours, whiteMinutes, whiteSeconds);
+        whiteClock.setText(whiteTimeString);
     }
 }

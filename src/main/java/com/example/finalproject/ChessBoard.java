@@ -18,8 +18,6 @@ public class ChessBoard {
                 Game.blocks[r][c] = new Block(r, c);
     }
     void startGame() {
-        Sounds.gameStartSound();
-        ChessStage.clock.startClock(isBlackTurn);
         // Pawns:
         for (int i = 0; i < 8; i++){
             Game.blocks[1][i].setPiece(new Piece(PieceType.PAWN, true, 32));
@@ -66,15 +64,5 @@ public class ChessBoard {
                 board.add(Game.blocks[r][c].getPane(), c, r);
             }
         }
-    }
-    void restartGame(){
-        ChessStage.kills.resetKills();
-        ChessStage.clock.resetClock();
-        isBlackTurn = false;
-        Game.blocks = new Block[8][8];
-        initializeBlocks();
-        Game.myStage.askForGameMode();
-        startGame();
-        Game.myStage.updateStage();
     }
 }

@@ -9,7 +9,6 @@ import java.io.File;
 import java.net.URL;
 
 public class Game extends Application {
-
     static Block blocks[][] = new Block[8][8];
     static Move move = new Move();
     static ChessBoard chessBoard = new ChessBoard();
@@ -17,6 +16,8 @@ public class Game extends Application {
     static ChessStage myStage = new ChessStage();
     static SplashScreen splashScreen = new SplashScreen();
     static Stockfish stockfish = new Stockfish();
+    static Castle castle = new Castle();
+//    static EnPassant enPassant = new EnPassant();
     static Scene scene;
     static Stage primaryStage;
 
@@ -35,7 +36,6 @@ public class Game extends Application {
         // Loading CSS:
         URL urlCss = new File("src/application.css").toURI().toURL();
         scene.getStylesheets().add(urlCss.toString());
-
         primaryStage.show();
     }
 }

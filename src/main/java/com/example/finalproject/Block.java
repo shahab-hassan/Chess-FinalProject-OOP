@@ -7,6 +7,8 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
+import java.io.Serializable;
+
 public class Block implements EventHandler<MouseEvent> {
     private BorderPane pane;
     private Label label;
@@ -26,9 +28,12 @@ public class Block implements EventHandler<MouseEvent> {
         this.col = c;
     }
 
-    Block(Piece piece) {
-        this();
-        this.piece = piece;
+    Block(Block b) {
+        this.pane = b.pane;
+        this.label = b.label;
+        this.piece = b.piece;
+        this.row = b.row;
+        this.col = b.col;
     }
     void updateBlock() {
         this.pane = new BorderPane();
@@ -103,6 +108,8 @@ public class Block implements EventHandler<MouseEvent> {
         }
     }
     public void mouseClicked() {
+        if(!ChessStage.chessBtns.isPrevious)
+            return;
         // Empty block:
         if (this.piece == null && this.label.getBorder() == null) {
             unSelectAllBlocks();
@@ -119,10 +126,13 @@ public class Block implements EventHandler<MouseEvent> {
                 Game.move.showPossibleMovesOnBoard(Game.move.getRealPossibleMoves(this));
             }
         }
-
+        //EnPassant moves
+//        else if (Game.blocks[Move.selectedRow][Move.selectedCol].getPiece().type==PieceType.PAWN &&this.piece == null && this.pane.getBorder() != null) {
+//            Game.enPassant.movePiece(this.row, this.col);
+//        }
         // Moving piece to possible move block:
         else if (this.piece == null && this.label.getBorder() != null) {
-            Game.move.movePiece(this.row, this.col);
+            Game.castle.movePiece(this.row, this.col);
         }
 
         // Killing Piece or Castling:
@@ -133,7 +143,7 @@ public class Block implements EventHandler<MouseEvent> {
                 else
                     ChessStage.kills.whiteKilledPieces[ChessStage.kills.whiteKillsCount++] = this.piece;
                 Sounds.captureSound();
-                Game.move.movePiece(this.row, this.col);
+                Game.castle.movePiece(this.row, this.col);
             } else
                 unSelectAllBlocks();
         }

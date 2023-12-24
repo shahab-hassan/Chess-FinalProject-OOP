@@ -47,6 +47,11 @@ public class Themes implements EventHandler<MouseEvent> {
         }
         ChessStage.clock.getBlackClock().setBackground(Utilities.applyBackground(MyColors.clockBgDefault));
         ChessStage.clock.getWhiteClock().setBackground(Utilities.applyBackground(MyColors.clockBgDefault));
+
+        String gradientBg = getGradientColor(MyColors.darkBlockDefault, MyColors.darkBlockOnHoverDefault, MyColors.lightBlockDefault, MyColors.lightBlockOnHoverDefault);
+        ChessStage.chessBtns.restartBtn.setStyle("-fx-background-color: "+gradientBg+";");
+        ChessStage.chessBtns.mainMenuBtn.setStyle("-fx-background-color: "+gradientBg+";");
+        ChessStage.chessBtns.saveGameBtn.setStyle("-fx-background-color: "+gradientBg+";");
     }
     void applyGrayTheme(){
         MyColors.darkBlockDefault = MyColors.darkBlockGray;
@@ -87,5 +92,18 @@ public class Themes implements EventHandler<MouseEvent> {
         MyColors.possibleMoveBorderDefault = MyColors.possibleMoveBorderRed;
         MyColors.dangerPieceBorderDefault = MyColors.dangerPieceBorderRed;
         Game.scene.setFill(MyColors.darkBlockRed);
+    }
+    String getGradientColor(Color dark, Color moreDark, Color light, Color moreLight){
+        String darkStr = convertRGBToHexa(dark);
+        String moreDarkStr = convertRGBToHexa(moreDark);
+        String lightStr = convertRGBToHexa(light);
+        String moreLightStr = convertRGBToHexa(moreLight);
+        return "linear-gradient(from 0% 93% to 0% 100%, "+darkStr+" 0%, "+moreDarkStr+" 100%), "+moreDarkStr+", "+lightStr+", radial-gradient(center 50% 50%, radius 100%, "+lightStr+", "+moreLightStr+")";
+    }
+    String convertRGBToHexa(Color clr){
+        return String.format("#%02X%02X%02X",
+                (int) (clr.getRed() * 255),
+                (int) (clr.getGreen() * 255),
+                (int) (clr.getBlue() * 255));
     }
 }

@@ -63,21 +63,4 @@ public class Utilities {
         }
         return possibleMoves;
     }
-    static void showGameOverAlert(String title){
-        String winner = Game.chessBoard.isBlackTurn? "White":"Black";
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(winner + " wins the game... Play Again?");
-        alert.setContentText("Press Yes to restart");
-        alert.initOwner(Game.primaryStage);
-        ButtonType yes = new ButtonType("Yes");
-        ButtonType no = new ButtonType("No");
-        alert.getButtonTypes().setAll(yes, no);
-        alert.showAndWait().ifPresent(buttonType -> {
-            if (buttonType == yes)
-                Game.chessBoard.restartGame();
-            else if (buttonType == no)
-                System.exit(0);
-        });
-    }
 }

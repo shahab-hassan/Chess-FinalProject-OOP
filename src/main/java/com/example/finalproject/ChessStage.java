@@ -7,38 +7,36 @@ class ChessStage{
     static Themes themes = new Themes();;
     static Clock clock = new Clock();
     static Kills kills = new Kills();
+    static ChessBtns chessBtns = new ChessBtns();
     ChessStage() {
         Game.root.getChildren().add(themes.themesPanel);
         Game.root.getChildren().add(clock.getWhiteClock());
         Game.root.getChildren().add(clock.getBlackClock());
         Game.root.getChildren().add(kills.getBlackKillsPanel());
         Game.root.getChildren().add(kills.getWhiteKillsPanel());
+        Game.root.getChildren().add(chessBtns.chessBtnsPane);
+        Game.root.getChildren().add(chessBtns.undoRedoPane);
     }
     void updateStage(){
         Game.root.getChildren().clear();
         Game.chessBoard.updateChessBoard();
         Game.myStage = new ChessStage();
+        ChessStage.clock.stopBothClocks();
+        ChessStage.clock.startClock(Game.chessBoard.isBlackTurn);
         Game.root.getChildren().add(Game.chessBoard.board);
     }
-    void askForGameMode() {
-        Alert alert=new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Game Mode");
-        alert.setHeaderText("Select Game Mode");
-        alert.setContentText("Ai for Single Player and Human for 2 Player");
-        ButtonType ai=new ButtonType("AI");
-        ButtonType human=new ButtonType("Human");
-        alert.getButtonTypes().setAll(ai,human);
-        alert.initOwner(Game.primaryStage);
-
-        alert.showAndWait().ifPresent(buttonType -> {
-            if(buttonType==ai){
-                Game.chessBoard.ai=true;
-                Sounds.gameStartSound();
-            }
-            else if(buttonType==human) {
-                Sounds.gameStartSound();
-                Game.chessBoard.ai=false;
-            }
-        });
+    void startMainGame(){
+        SaveGame.isGameSaved = true;
+        Game.chessBoard.isBlackTurn = false;
+        ChessStage.chessBtns.isGameStart = false;
+        ChessStage.clock.resetClock();
+        ChessStage.kills.resetKills();
+        ChessStage.chessBtns.updateUndoRedoBtns();
+        Game.blocks = new Block[8][8];
+        Game.chessBoard.initializeBlocks();
+        Game.chessBoard.startGame();
+        Game.myStage.updateStage();
+        Sounds.gameStartSound();
+        ChessStage.clock.startClock(Game.chessBoard.isBlackTurn);
     }
 }

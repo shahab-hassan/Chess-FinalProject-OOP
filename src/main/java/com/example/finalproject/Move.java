@@ -8,6 +8,8 @@ import java.util.ArrayList;
 class Move{
     static int selectedRow = -1;
     static int selectedCol = -1;
+    static Block previousSource;
+    static Block previousDestination;
 
     ArrayList<int[]> getRandomPossibleMoves(Block clickedBlock){
         ArrayList<int[]> randomMoves = new ArrayList<>();
@@ -51,6 +53,8 @@ class Move{
             else
                 Game.blocks[move[0]][move[1]].getLabel().setBorder(Utilities.applyBorder(MyColors.possibleMoveBorderBlue, 3));
         }
+        Game.castle.showCastleMove();
+//        Game.enPassant.showEnpassantMoves();
     }
 
     boolean isSafeMove(Block clickedBlock, int endRow, int endCol){
@@ -66,34 +70,16 @@ class Move{
     }
 
     Piece promptForPromotionChoice(boolean isBlack) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Promotion");
-        alert.setHeaderText("Select a piece to promote your pawn:");
-        alert.setContentText(null);
-        alert.initOwner(Game.primaryStage);
-        ButtonType queen = new ButtonType("Queen");
-        ButtonType rook = new ButtonType("Rook");
-        ButtonType bishop = new ButtonType("Bishop");
-        ButtonType knight = new ButtonType("Knight");
-        alert.getButtonTypes().setAll(queen, rook, bishop, knight);
-        Piece piece = new Piece(PieceType.QUEEN, isBlack, 32);
-        alert.showAndWait().ifPresent(buttonType -> {
-            if (buttonType == queen)
-                piece.setType(PieceType.QUEEN);
-            else if (buttonType == rook)
-                piece.setType(PieceType.ROOK);
-            else if (buttonType == bishop)
-                piece.setType(PieceType.BISHOP);
-            else
-                piece.setType(PieceType.KNIGHT);
-        });
-        piece.updatePiece();
-        return piece;
+        return Alerts.promotionChoiceAlert(isBlack);
     }
 
     void movePiece(int toRow, int toCol){
+//        Game.enPassant.resetEnpassantRequirement();
         Block selectedBlock = Game.blocks[selectedRow][selectedCol];
         Block destinationBlock = Game.blocks[toRow][toCol];
+        previousSource = new Block(selectedBlock);
+        previousDestination = new Block(destinationBlock);
+
         destinationBlock.setPiece(selectedBlock.getPiece());
         selectedBlock.setPiece(null);
         if (destinationBlock.getPiece().type == PieceType.PAWN && ((toRow == 0) || (toRow == 7))) {
@@ -102,8 +88,11 @@ class Move{
             Sounds.promoteSound();
         }
         Game.chessBoard.isBlackTurn = !Game.chessBoard.isBlackTurn;
-        ChessStage.clock.stopBothClocks();
-        ChessStage.clock.startClock(Game.chessBoard.isBlackTurn);
+
+        ChessStage.chessBtns.isGameStart = true;
+        ChessStage.chessBtns.isPrevious = true;
+        ChessStage.chessBtns.updateUndoRedoBtns();
+
         Game.myStage.updateStage();
         if(Game.chessBoard.ai && Game.chessBoard.isBlackTurn){
             StockfishWorker worker = new StockfishWorker();
@@ -114,7 +103,17 @@ class Move{
         if(GameOver.isCheckMate()){
             ChessStage.clock.stopBothClocks();
             Sounds.gameEndSound();
-            Utilities.showGameOverAlert("Game Over!");
+            String title, headerText;
+            if(GameOver.isKingInCheck(Game.chessBoard.isBlackTurn)){
+                String winner = Game.chessBoard.isBlackTurn? "White":"Black";
+                title = "Game Over!";
+                headerText = winner + " wins the game... Play Again?";
+            }
+            else{
+                title = "StaleMate!";
+                headerText = "The game is draw... Play Again?";
+            }
+            Alerts.showGameOverAlert(title, headerText);
         }
         else if(GameOver.isKingInCheck(Game.chessBoard.isBlackTurn))
             Sounds.moveCheckSound();

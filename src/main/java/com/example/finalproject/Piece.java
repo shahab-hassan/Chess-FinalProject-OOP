@@ -2,11 +2,14 @@ package com.example.finalproject;
 
 import javafx.scene.image.ImageView;
 
-class Piece {
+import java.io.Serializable;
+
+class Piece{
     ImageView icon;
     PieceType type;
     boolean isBlack;
     int px;
+//    boolean enPassantRequirement;
     Piece(PieceType type, boolean isBlack, int px) {
         this.type = type;
         this.isBlack = isBlack;

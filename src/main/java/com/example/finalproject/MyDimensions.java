@@ -30,4 +30,13 @@ public class MyDimensions{
     static double themeContainerY = frameHeight-215;
     static double themeContainerWidth = Double.MAX_VALUE;
     static double themeContainerHeight = 20;
+    // Game Buttons:
+    static double chessBtnsPaneX = boardWidth + 30;
+    static double chessBtnsPaneY = clockHeight + blackKillsPanelHeight + 60;
+    static double chessBtnsPaneWidth = 340;
+    static double chessBtnsPaneHeight = 300;
+    static double undoRedoPaneHeight = clockHeight;
+    static double undoRedoPaneWidth = clockWidth + 60;
+    static double undoRedoPaneX = blackClockX + clockWidth + 30;
+    static double undoRedoPaneY = blackClockY;
 }

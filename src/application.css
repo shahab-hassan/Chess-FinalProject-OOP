@@ -13,7 +13,8 @@
     -fx-font-weight: bold;
     -fx-text-fill: "black";
 }
-.startGameBtn, .startGameBtnHover{
+.startGameBtn, .startGameBtnHover, .chessBtns{
+    -fx-font-family: "Helvetica";
     -fx-padding: 8 15 15 15;
     -fx-background-insets: 0,0 0 5 0,0 0 6 0,0 0 7 0;
     -fx-background-radius: 8;
@@ -26,7 +27,55 @@
     -fx-max-width: 350px;
     -fx-max-height: 120px;
     -fx-text-fill: "white";
+    -fx-cursor: hand;
 }
-.startGameBtnHover{
+.chessBtns{
+    -fx-font-family: "Helvetica";
+    -fx-min-width: 280px;
+    -fx-min-height: 80px;
+    -fx-max-width: 380px;
+    -fx-max-height: 120px;
+}
+.startGameBtn:hover, .chessBtns:hover{
     -fx-background-color: linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%), #9d4024, #d86e3a, radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+
+.checkBox, .durationTextLabel{
+    -fx-font-size: 20;
+    -fx-padding: 15;
+    -fx-font-family: "Helvetica";
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+.durationTextLabel{
+    -fx-cursor: pointer;
+}
+
+.combo-box {
+    -fx-font-size: 14;
+    -fx-background-color: "black";
+}
+
+.combo-box .list-cell {
+    -fx-alignment: center;
+    -fx-text-fill: white;
+    -fx-background-color: #656565;
+}
+
+.combo-box .list-cell:hover {
+    -fx-background-color: #949494;
+}
+
+.combo-box .list-cell:selected {
+    -fx-background-color: "black";
+    -fx-text-fill: white;
+}
+
+.continueBtn{
+    -fx-background-color: null;
+    -fx-font-family: "Helvetica";
+    -fx-underline: true;
+    -fx-cursor: hand;
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
 }
