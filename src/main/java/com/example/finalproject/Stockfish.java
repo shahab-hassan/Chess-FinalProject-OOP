@@ -7,7 +7,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Stockfish {
+public abstract class Stockfish  implements BestMoveProcessing{
 
     private Process stockfishProcess;
     private BufferedReader stockfishInput;
@@ -28,14 +28,10 @@ public class Stockfish {
         }
     }
 
-    String getBestMove(String fen) {
-        sendCommand("position fen " + fen);
-        sendCommand("go movetime 400");
-        String response = readResponse();
-        return extractBestMove(response);
-    }
+    @Override
+   public abstract String getBestMove(String fen) ;
 
-    private String extractBestMove(String response) {
+    String extractBestMove(String response) {
         String[] lines = response.split("\n");
         for (String line : lines) {
             if (line.startsWith("bestmove")) {
@@ -53,6 +49,68 @@ public class Stockfish {
             e.printStackTrace();
         }
     }
+    //new method
+    public String evaluatePosition(String fen) {
+        sendCommand("position fen " + fen);
+        sendCommand("eval");
+        String response = readEvaluationResponse();
+        return extractEvaluationScore(response);
+    }
+    //new method
+    public double convertPositionToInt()
+    {
+        double number=0;
+        String s= evaluatePosition(FenConverter.boardToFEN(Game.blocks));
+        if(s.startsWith("+"))
+        {
+            String n=s.substring(1);
+            number=Double.parseDouble(n);
+        }
+        if(s.startsWith("-"))
+        {
+            String n=s.substring(1);
+            number=-Double.parseDouble(n);
+        }
+        return number;
+
+    }
+    //new method
+    private String extractEvaluationScore(String response) {
+        String[] lines = response.split("\n");
+        for (String line : lines) {
+            if (line.startsWith("Classical evaluation")) {
+                String[] tokens = line.split(" ");
+                for (int i = 0; i < tokens.length; i++) {
+                    if(tokens[i].startsWith("+")|| tokens[i].startsWith("-"))
+                    {
+                        return tokens[i];
+
+                    }
+
+
+                }
+            }
+        }
+        return "-20.0";
+    }
+    //new method
+    public String readEvaluationResponse() {
+        List<String> lines = new ArrayList<>();
+        try {
+            String line;
+            while ((line = stockfishInput.readLine()) != null) {
+                lines.add(line);
+                if (line.startsWith("Final evaluation")) {
+                    break;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return String.join("\n", lines);
+    }
+
 
     String readResponse() {
         List<String> lines = new ArrayList<>();

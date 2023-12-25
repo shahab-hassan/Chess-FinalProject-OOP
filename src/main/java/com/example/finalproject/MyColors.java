@@ -24,10 +24,10 @@ public class MyColors {
     static Color dangerPieceBorderGray = dangerPieceBorderDefault;
 
     // Green:
-    static Color lightBlockGreen = Color.rgb(0x7C, 0xEC, 0x7C);
-    static Color darkBlockGreen = Color.rgb(0x23, 0xAD, 0x23);
-    static Color lightBlockOnHoverGreen = Color.rgb(0x5E, 0xDA, 0x5E);
-    static Color darkBlockOnHoverGreen = Color.rgb(0x11, 0x9F, 0x11);
+    static Color lightBlockGreen = Color.rgb(0xeb, 0xec, 0xd0);
+    static Color darkBlockGreen = Color.rgb(0x77, 0x95, 0x56);
+    static Color lightBlockOnHoverGreen = Color.rgb(0xCB, 0xCC, 0xB8);
+    static Color darkBlockOnHoverGreen = Color.rgb(101, 135, 65);
     static Color clockBgGreen = lightBlockGreen;
     static Color possibleMoveBorderGreen = Color.rgb(0x00, 0x69, 0x00);
     static Color dangerPieceBorderGreen = dangerPieceBorderDefault;

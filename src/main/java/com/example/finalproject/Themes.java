@@ -5,6 +5,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.stage.Stage;
 
 public class Themes implements EventHandler<MouseEvent> {
     FlowPane themesPanel;
@@ -29,29 +30,38 @@ public class Themes implements EventHandler<MouseEvent> {
     }
     @Override
     public void handle(MouseEvent e){
+        GameAnalysis.progressBar.getStyleClass().clear();
         if(e.getSource() == grayBtn){
             applyGrayTheme();
+            System.out.println("grey");
             Game.myStage.updateStage();
+            GameAnalysis.progressBar.getStyleClass().add("progress-bar2");
         }
         else if(e.getSource() == greenBtn){
             applyGreenTheme();
+            System.out.println("green");
             Game.myStage.updateStage();
+            GameAnalysis.progressBar.getStyleClass().add("progress-bar1");
         }
         else if(e.getSource() == blueBtn){
             applyBlueTheme();
             Game.myStage.updateStage();
+            GameAnalysis.progressBar.getStyleClass().add("progress-bar4");
         }
         else{
             applyRedTheme();
+            System.out.println("red");
             Game.myStage.updateStage();
+            GameAnalysis.progressBar.getStyleClass().add("progress-bar3");
         }
+        System.out.println(convertRGBToHexa(MyColors.darkBlockGreen) + " " + convertRGBToHexa(MyColors.lightBlockGreen));
         ChessStage.clock.getBlackClock().setBackground(Utilities.applyBackground(MyColors.clockBgDefault));
         ChessStage.clock.getWhiteClock().setBackground(Utilities.applyBackground(MyColors.clockBgDefault));
 
         String gradientBg = getGradientColor(MyColors.darkBlockDefault, MyColors.darkBlockOnHoverDefault, MyColors.lightBlockDefault, MyColors.lightBlockOnHoverDefault);
-        ChessStage.chessBtns.restartBtn.setStyle("-fx-background-color: "+gradientBg+";");
-        ChessStage.chessBtns.mainMenuBtn.setStyle("-fx-background-color: "+gradientBg+";");
-        ChessStage.chessBtns.saveGameBtn.setStyle("-fx-background-color: "+gradientBg+";");
+        ChessStage.chessBtns.restartBtn.setStyle("-fx-background-color: "+gradientBg+"; -fx-text-fill: #000000;");
+        ChessStage.chessBtns.mainMenuBtn.setStyle("-fx-background-color: "+gradientBg+"; -fx-text-fill: #000000;");
+        ChessStage.chessBtns.saveGameBtn.setStyle("-fx-background-color: "+gradientBg+"; -fx-text-fill: #000000;");
     }
     void applyGrayTheme(){
         MyColors.darkBlockDefault = MyColors.darkBlockGray;
@@ -82,6 +92,7 @@ public class Themes implements EventHandler<MouseEvent> {
         MyColors.possibleMoveBorderDefault = MyColors.possibleMoveBorderBlue;
         MyColors.dangerPieceBorderDefault = MyColors.dangerPieceBorderBlue;
         Game.scene.setFill(MyColors.darkBlockBlue);
+
     }
     void applyRedTheme(){
         MyColors.darkBlockDefault = MyColors.darkBlockRed;
@@ -92,6 +103,7 @@ public class Themes implements EventHandler<MouseEvent> {
         MyColors.possibleMoveBorderDefault = MyColors.possibleMoveBorderRed;
         MyColors.dangerPieceBorderDefault = MyColors.dangerPieceBorderRed;
         Game.scene.setFill(MyColors.darkBlockRed);
+
     }
     String getGradientColor(Color dark, Color moreDark, Color light, Color moreLight){
         String darkStr = convertRGBToHexa(dark);

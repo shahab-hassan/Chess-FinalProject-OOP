@@ -63,10 +63,10 @@ public class ChessBtns implements EventHandler<MouseEvent> {
         undo = new ImageView(new Image("file:src/images/undo.png"));
         redo = new ImageView(new Image("file:src/images/redo.png"));
 
-        undo.setFitHeight(30);
-        undo.setFitWidth(30);
-        redo.setFitHeight(30);
-        redo.setFitWidth(30);
+        undo.setFitHeight(40);
+        undo.setFitWidth(40);
+        redo.setFitHeight(40);
+        redo.setFitWidth(40);
         undo.setCursor(Cursor.HAND);
         redo.setCursor(Cursor.HAND);
         undo.setOpacity(0.4);

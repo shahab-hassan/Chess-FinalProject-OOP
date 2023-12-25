@@ -45,6 +45,11 @@ public class SplashScreen implements EventHandler<MouseEvent> {
     private static final double ARC_HEIGHT = 20.0;
     CheckBox aiCB = new CheckBox("AI");
     CheckBox humanCB = new CheckBox("2 Player");
+    CheckBox easyDifficulty=new CheckBox("Easy");
+    CheckBox mediumDifficulty=new CheckBox("Medium");
+    CheckBox hardDifficulty=new CheckBox("Hard");
+
+
     ComboBox<String> gameDurations = new ComboBox<>();
     Label durationText = new Label("Duration: ");
     private static Button button = new Button("Start New Game");
@@ -58,37 +63,60 @@ public class SplashScreen implements EventHandler<MouseEvent> {
         scene.getStylesheets().add(urlCss.toString());
 
         button.setLayoutX(450);
-        button.setLayoutY(530);
+        button.setLayoutY(550);
         button.getStyleClass().add("startGameBtn");
         button.setOnMouseClicked(this);
         button.setOnMouseEntered(this);
         button.setOnMouseExited(this);
+        button.setVisible(false);
 
         continueBtn.setLayoutX(460);
-        continueBtn.setLayoutY(620);
+        continueBtn.setLayoutY(640);
         continueBtn.getStyleClass().add("continueBtn");
         continueBtn.setOnMouseClicked(this);
+        continueBtn.setVisible(false);
 
         aiCB.setLayoutX(460);
-        aiCB.setLayoutY(370);
+        aiCB.setLayoutY(350);
         aiCB.getStyleClass().add("checkBox");
         aiCB.setSelected(true);
+        aiCB.setVisible(false);
         humanCB.setLayoutX(540);
-        humanCB.setLayoutY(370);
+        humanCB.setLayoutY(350);
         humanCB.getStyleClass().add("checkBox");
         humanCB.setSelected(false);
         aiCB.setOnMouseClicked(this);
         humanCB.setOnMouseClicked(this);
-
+        humanCB.setVisible(false);
+        easyDifficulty.setLayoutX(400);
+        easyDifficulty.getStyleClass().add("checkBox");
+        easyDifficulty.setOnMouseClicked(this);
+        mediumDifficulty.setOnMouseClicked(this);
+        hardDifficulty.setOnMouseClicked(this);
+        easyDifficulty.setVisible(false);
+        mediumDifficulty.setVisible(false);
+        hardDifficulty.setVisible(false);
+        mediumDifficulty.setLayoutX(550);
+        mediumDifficulty.getStyleClass().add("checkBox");
+        hardDifficulty.setLayoutX(700);
+        hardDifficulty.getStyleClass().add("checkBox");
+        easyDifficulty.setLayoutY(470);
+        mediumDifficulty.setLayoutY(470);
+        hardDifficulty.setLayoutY(470);
+        easyDifficulty.setSelected(true);
+        mediumDifficulty.setSelected(false);
+        hardDifficulty.setSelected(false);
         gameDurations.setItems(FXCollections.observableArrayList(
                 "5 minutes", "10 minutes", "15 minutes", "30 minutes", "60 minutes"
         ));
         gameDurations.getSelectionModel().select("10 minutes");
         gameDurations.setLayoutX(570);
-        gameDurations.setLayoutY(445);
+        gameDurations.setLayoutY(425);
+        gameDurations.setVisible(false);
         durationText.setLayoutX(450);
-        durationText.setLayoutY(430);
+        durationText.setLayoutY(410);
         durationText.getStyleClass().add("durationTextLabel");
+        durationText.setVisible(false);
 
         Image image = new Image("file:src/images/logo.png");
         ImageView imageView = new ImageView(image);
@@ -128,6 +156,10 @@ public class SplashScreen implements EventHandler<MouseEvent> {
             FadeTransition aiCBFadeTransition = createFadeTransition(aiCB, 0.0, 1.0, Duration.seconds(0.2));
             FadeTransition humanCBFadeTransition = createFadeTransition(humanCB, 0.0, 1.0, Duration.seconds(0.05));
             FadeTransition gameDurationsFadeTransition = createFadeTransition(gameDurations, 0.0, 1.0, Duration.seconds(0.05));
+            FadeTransition easyFadeTransition = createFadeTransition(easyDifficulty, 0.0, 1.0, Duration.seconds(0.05));
+            FadeTransition mediumFadeTransition = createFadeTransition(mediumDifficulty, 0.0, 1.0, Duration.seconds(0.05));
+            FadeTransition hardFadeTransition = createFadeTransition(hardDifficulty, 0.0, 1.0, Duration.seconds(0.05));
+
             FadeTransition durationTextFadeTransition = createFadeTransition(durationText, 0.0, 1.0, Duration.seconds(0.05));
             FadeTransition continueBtnFadeTransition = createFadeTransition(continueBtn, 0.0, 1.0, Duration.seconds(0.05));
             root.getChildren().add(textGroup);
@@ -137,17 +169,30 @@ public class SplashScreen implements EventHandler<MouseEvent> {
             root.getChildren().add(gameDurations);
             root.getChildren().add(durationText);
             root.getChildren().add(continueBtn);
+            root.getChildren().add(easyDifficulty);
+            root.getChildren().add(mediumDifficulty);
+            root.getChildren().add(hardDifficulty);
+
             SequentialTransition sequentialTransition = new SequentialTransition();
             ParallelTransition parallelTransition = new ParallelTransition(logoTranslateTransition, scaleTransition);
-            sequentialTransition.getChildren().addAll(parallelTransition, textFadeTransition, aiCBFadeTransition, humanCBFadeTransition, durationTextFadeTransition, gameDurationsFadeTransition, buttonFadeTransition, continueBtnFadeTransition);
+            sequentialTransition.getChildren().addAll(parallelTransition, textFadeTransition, aiCBFadeTransition, humanCBFadeTransition, durationTextFadeTransition, gameDurationsFadeTransition,easyFadeTransition,mediumFadeTransition,hardFadeTransition, buttonFadeTransition, continueBtnFadeTransition);
             sequentialTransition.play();
 
             textFadeTransition.setOnFinished(fadeEvent -> {
-
+                button.setVisible(true);
+                aiCB.setVisible(true);
+                humanCB.setVisible(true);
+                gameDurations.setVisible(true);
+                durationText.setVisible(true);
+                continueBtn.setVisible(true);
+                easyDifficulty.setVisible(true);
+                mediumDifficulty.setVisible(true);
+                hardDifficulty.setVisible(true);
 
             });
         });
         pauseTransition.play();
+        Game.stockfish=new EasyStockfish();
         return scene;
     }
 
@@ -179,13 +224,24 @@ public class SplashScreen implements EventHandler<MouseEvent> {
     public void handle(MouseEvent event) {
         if(event.getEventType() == MouseEvent.MOUSE_CLICKED){
             if(event.getSource() == aiCB){
-                if(humanCB.isSelected())
+                if(humanCB.isSelected()){
                     humanCB.setSelected(false);
+                    easyDifficulty.setVisible(true);
+                    mediumDifficulty.setVisible(true);
+                    hardDifficulty.setVisible(true);
+                }
+
                 aiCB.setSelected(true);
             }
             else if(event.getSource() == humanCB){
-                if(aiCB.isSelected())
+                if(aiCB.isSelected()){
+                    easyDifficulty.setVisible(false);
+                    mediumDifficulty.setVisible(false);
+                    hardDifficulty.setVisible(false);
                     aiCB.setSelected(false);
+
+                }
+
                 humanCB.setSelected(true);
             }
             else if(event.getSource() == continueBtn){
@@ -193,6 +249,36 @@ public class SplashScreen implements EventHandler<MouseEvent> {
                     SaveGame.loadSavedGame();
                 else
                     Alerts.noGameSavedPrompt(humanCB, gameDurations);
+            }
+            else if(event.getSource()== easyDifficulty)
+            {
+                if(mediumDifficulty.isSelected() || hardDifficulty.isSelected())
+                {
+                    hardDifficulty.setSelected(false);
+                    mediumDifficulty.setSelected(false);
+                }
+                Game.stockfish=new EasyStockfish();
+                easyDifficulty.setSelected(true);
+            }
+            else if(event.getSource()== mediumDifficulty)
+            {
+                if(easyDifficulty.isSelected() || hardDifficulty.isSelected())
+                {
+                    easyDifficulty.setSelected(false);
+                    hardDifficulty.setSelected(false);
+                }
+                Game.stockfish=new MediumStockfish();
+                mediumDifficulty.setSelected(true);
+            }
+            else if(event.getSource()== hardDifficulty)
+            {
+                if(easyDifficulty.isSelected() || mediumDifficulty.isSelected())
+                {
+                    easyDifficulty.setSelected(false);
+                    mediumDifficulty.setSelected(false);
+                }
+                Game.stockfish=new HardStockfish();
+                hardDifficulty.setSelected(true);
             }
             else{
                 if(humanCB.isSelected())

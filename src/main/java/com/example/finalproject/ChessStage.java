@@ -16,14 +16,22 @@ class ChessStage{
         Game.root.getChildren().add(kills.getWhiteKillsPanel());
         Game.root.getChildren().add(chessBtns.chessBtnsPane);
         Game.root.getChildren().add(chessBtns.undoRedoPane);
+        Game.player.showPlayersMark();
+        Game.root.getChildren().add(Game.player.getPane());
+        GameAnalysis.initializeAnalysisBar();
     }
     void updateStage(){
+        GameAnalysis.controlProgressBar();
         Game.root.getChildren().clear();
         Game.chessBoard.updateChessBoard();
         Game.myStage = new ChessStage();
+        Game.player.currentPlayer();
         ChessStage.clock.stopBothClocks();
         ChessStage.clock.startClock(Game.chessBoard.isBlackTurn);
         Game.root.getChildren().add(Game.chessBoard.board);
+        Game.root.getChildren().add(GameAnalysis.progressBar);
+
+
     }
     void startMainGame(){
         SaveGame.isGameSaved = true;

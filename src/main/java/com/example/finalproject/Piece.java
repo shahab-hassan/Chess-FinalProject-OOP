@@ -9,7 +9,7 @@ class Piece{
     PieceType type;
     boolean isBlack;
     int px;
-//    boolean enPassantRequirement;
+    boolean enPassantRequirement;
     Piece(PieceType type, boolean isBlack, int px) {
         this.type = type;
         this.isBlack = isBlack;
@@ -19,8 +19,9 @@ class Piece{
     void updatePiece() {
         String color = isBlack ? "black" : "white";
         this.icon = new ImageView("file:src/images/"+px+"px/" + type + "_" + color + ".png");
-        this.icon.setFitHeight(38);
-        this.icon.setFitWidth(38);
+        this.icon.setFitHeight(50);
+        this.icon.setFitWidth(50);
+        icon.setPreserveRatio(true);
     }
     void setType(PieceType type){
         this.type = type;

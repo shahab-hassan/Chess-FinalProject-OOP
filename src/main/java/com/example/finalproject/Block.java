@@ -108,8 +108,9 @@ public class Block implements EventHandler<MouseEvent> {
         }
     }
     public void mouseClicked() {
-        if(!ChessStage.chessBtns.isPrevious)
+        if(!ChessStage.chessBtns.isPrevious || (Game.chessBoard.ai &&Game.chessBoard.isBlackTurn))
             return;
+
         // Empty block:
         if (this.piece == null && this.label.getBorder() == null) {
             unSelectAllBlocks();
@@ -127,12 +128,13 @@ public class Block implements EventHandler<MouseEvent> {
             }
         }
         //EnPassant moves
-//        else if (Game.blocks[Move.selectedRow][Move.selectedCol].getPiece().type==PieceType.PAWN &&this.piece == null && this.pane.getBorder() != null) {
-//            Game.enPassant.movePiece(this.row, this.col);
-//        }
+        else if (Game.blocks[Move.selectedRow][Move.selectedCol].getPiece().type==PieceType.PAWN &&this.piece == null && this.label.getBorder() != null) {
+            Game.enPassant.movePiece(this.row, this.col);
+        }
         // Moving piece to possible move block:
         else if (this.piece == null && this.label.getBorder() != null) {
             Game.castle.movePiece(this.row, this.col);
+            Sounds.movePieceSound();
         }
 
         // Killing Piece or Castling:

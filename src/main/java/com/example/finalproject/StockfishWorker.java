@@ -1,6 +1,8 @@
 package com.example.finalproject;
 
+import javafx.animation.PauseTransition;
 import javafx.concurrent.Task;
+import javafx.util.Duration;
 
 public class StockfishWorker extends Task<String> {
 
@@ -16,10 +18,15 @@ public class StockfishWorker extends Task<String> {
             String bestMove = get();
             int[] coordinates = Game.stockfish.convertMoveToRowColumn(bestMove);
             assert coordinates != null;
-            Stockfish.aiSounds(coordinates[2], coordinates[3]);
             Move.selectedRow = coordinates[0];
             Move.selectedCol = coordinates[1];
-            Game.move.movePiece(coordinates[2], coordinates[3]);
+
+            PauseTransition pause = new PauseTransition(Duration.millis(500));
+            pause.setOnFinished(event -> {
+                Stockfish.aiSounds(coordinates[2], coordinates[3]);
+                Game.move.movePiece(coordinates[2], coordinates[3]);
+            });
+            pause.play();
 
         } catch (Exception e) {
             e.printStackTrace();

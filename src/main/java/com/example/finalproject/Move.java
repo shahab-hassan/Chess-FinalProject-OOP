@@ -1,5 +1,6 @@
 package com.example.finalproject;
 
+import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 
@@ -54,7 +55,8 @@ class Move{
                 Game.blocks[move[0]][move[1]].getLabel().setBorder(Utilities.applyBorder(MyColors.possibleMoveBorderBlue, 3));
         }
         Game.castle.showCastleMove();
-//        Game.enPassant.showEnpassantMoves();
+        Game.enPassant.showEnpassantMoves();
+
     }
 
     boolean isSafeMove(Block clickedBlock, int endRow, int endCol){
@@ -74,7 +76,7 @@ class Move{
     }
 
     void movePiece(int toRow, int toCol){
-//        Game.enPassant.resetEnpassantRequirement();
+     Game.enPassant.resetEnpassantRequirement();
         Block selectedBlock = Game.blocks[selectedRow][selectedCol];
         Block destinationBlock = Game.blocks[toRow][toCol];
         previousSource = new Block(selectedBlock);
@@ -113,12 +115,13 @@ class Move{
                 title = "StaleMate!";
                 headerText = "The game is draw... Play Again?";
             }
-            Alerts.showGameOverAlert(title, headerText);
+            Platform.runLater(()->{
+                Alerts.showGameOverAlert(title, headerText);
+            });
         }
         else if(GameOver.isKingInCheck(Game.chessBoard.isBlackTurn))
             Sounds.moveCheckSound();
-        else
-            Sounds.movePieceSound();
+
     }
 
     ArrayList<int[]> calculateRookMoves(Block block){

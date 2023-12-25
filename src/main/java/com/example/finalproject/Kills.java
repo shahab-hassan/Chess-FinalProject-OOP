@@ -21,8 +21,8 @@ public class Kills {
     }
     FlowPane getBlackKillsPanel(){
         FlowPane blackKillsPanel = new FlowPane(0, 0);
-        blackKillsPanel.setLayoutX(MyDimensions.blackKillsPanelX);
-        blackKillsPanel.setLayoutY(MyDimensions.blackKillsPanelY);
+        blackKillsPanel.setLayoutX(MyDimensions.whiteKillsPanelX);
+        blackKillsPanel.setLayoutY(MyDimensions.whiteKillsPanelY);
         blackKillsPanel.setPrefSize(MyDimensions.blackKillsPanelWidth, MyDimensions.blackKillsPanelHeight);
         if(blackKillsCount == 0){
             Label label = new Label("NO KILLS YET!");
@@ -46,8 +46,8 @@ public class Kills {
     }
     FlowPane getWhiteKillsPanel(){
         FlowPane whiteKillsPanel = new FlowPane();
-        whiteKillsPanel.setLayoutX(MyDimensions.whiteKillsPanelX);
-        whiteKillsPanel.setLayoutY(MyDimensions.whiteKillsPanelY);
+        whiteKillsPanel.setLayoutX(MyDimensions.blackKillsPanelX);
+        whiteKillsPanel.setLayoutY(MyDimensions.blackKillsPanelY);
         whiteKillsPanel.setPrefSize(MyDimensions.whiteKillsPanelWidth, MyDimensions.whiteKillsPanelHeight);
         if(whiteKillsCount == 0){
             Label label = new Label("NO KILLS YET!");

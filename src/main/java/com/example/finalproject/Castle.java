@@ -76,7 +76,7 @@ class Castle extends Move{
         }
         else
             return false;
-        return true;
+        return Game.blocks[0][7].getPiece()!=null && Game.blocks[0][7].getPiece().isBlack;
     }
     boolean checkCanBlackLongCastle(){
         if(canBlackLongCastle){
@@ -91,7 +91,7 @@ class Castle extends Move{
         }
         else
             return false;
-        return true;
+        return Game.blocks[0][0].getPiece()!=null && Game.blocks[0][0].getPiece().isBlack;
     }
     boolean checkCanWhiteShortCastle(){
         if(canWhiteShortCastle){
@@ -106,7 +106,7 @@ class Castle extends Move{
         }
         else
             return false;
-        return true;
+        return Game.blocks[7][7].getPiece()!=null && !Game.blocks[7][7].getPiece().isBlack;
     }
     boolean checkCanWhiteLongCastle(){
         if(canWhiteLongCastle){
@@ -121,19 +121,19 @@ class Castle extends Move{
         }
         else
             return false;
-        return true;
+        return Game.blocks[7][0].getPiece()!=null && !Game.blocks[7][0].getPiece().isBlack;
     }
     void showCastleMove(){
         Piece selectedPiece = Game.blocks[Move.selectedRow][Move.selectedCol].getPiece();
         if(selectedPiece.type == PieceType.KING){
             if(selectedPiece.isBlack){
-                if(checkCanBlackShortCastle())
+                if(checkCanBlackShortCastle() )
                     Game.blocks[0][6].getLabel().setBorder(Utilities.applyBorder(MyColors.castleMoveBorderDefault, 5));
-                else if(checkCanBlackLongCastle())
+                else if(checkCanBlackLongCastle() && Game.blocks[0][0].getPiece().isBlack)
                     Game.blocks[0][2].getLabel().setBorder(Utilities.applyBorder(MyColors.castleMoveBorderDefault, 5));
             }
             else{
-                if(checkCanWhiteShortCastle())
+                if(checkCanWhiteShortCastle() )
                     Game.blocks[7][6].getLabel().setBorder(Utilities.applyBorder(MyColors.castleMoveBorderDefault, 5));
                 else if(checkCanWhiteLongCastle())
                     Game.blocks[7][2].getLabel().setBorder(Utilities.applyBorder(MyColors.castleMoveBorderDefault, 5));

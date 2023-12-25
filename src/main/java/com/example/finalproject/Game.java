@@ -13,11 +13,12 @@ public class Game extends Application {
     static Move move = new Move();
     static ChessBoard chessBoard = new ChessBoard();
     static Group root = new Group();
+    static Player player =new Player();
     static ChessStage myStage = new ChessStage();
     static SplashScreen splashScreen = new SplashScreen();
-    static Stockfish stockfish = new Stockfish();
+    static Stockfish stockfish;
     static Castle castle = new Castle();
-//    static EnPassant enPassant = new EnPassant();
+    static EnPassant enPassant = new EnPassant();
     static Scene scene;
     static Stage primaryStage;
 
@@ -27,6 +28,7 @@ public class Game extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
         Game.primaryStage = primaryStage;
         primaryStage.setScene(splashScreen.logoScene());
 
@@ -36,6 +38,7 @@ public class Game extends Application {
         // Loading CSS:
         URL urlCss = new File("src/application.css").toURI().toURL();
         scene.getStylesheets().add(urlCss.toString());
+
         primaryStage.show();
     }
 }
