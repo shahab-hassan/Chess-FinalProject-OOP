@@ -30,8 +30,6 @@ class ChessStage{
         ChessStage.clock.startClock(Game.chessBoard.isBlackTurn);
         Game.root.getChildren().add(Game.chessBoard.board);
         Game.root.getChildren().add(GameAnalysis.progressBar);
-
-
     }
     void startMainGame(){
         SaveGame.isGameSaved = true;

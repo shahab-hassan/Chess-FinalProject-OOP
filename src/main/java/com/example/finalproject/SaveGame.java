@@ -1,26 +1,28 @@
 package com.example.finalproject;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
-
+import javax.crypto.*;
+import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Scanner;
 
 public class SaveGame {
     static boolean isGameSaved = true;
+    public SaveGame(){}
     static void saveCurrentGame(){
         SaveGame.isGameSaved = true;
-        try{
+        try {
             FileOutputStream obj = new FileOutputStream("savedGameObj.txt");
             ObjectOutputStream oos = new ObjectOutputStream(obj);
-            for(Block blockArr[]: Game.blocks){
-                for(Block block: blockArr){
-                    if(block.getPiece() != null)
-                        oos.writeObject(new SaveGameObj(new PieceObj(block.getPiece().type, block.getPiece().isBlack), block.getRow(), block.getCol()));
+            for (Block blockArr[] : Game.blocks) {
+                for (Block block : blockArr) {
+                    if (block.getPiece() != null)
+                        oos.writeObject(Encryption.encryptObject(new SaveGameObj(new PieceObj(block.getPiece().type, block.getPiece().isBlack), block.getRow(), block.getCol())));
                     else
-                        oos.writeObject(new SaveGameObj(null, block.getRow(), block.getCol()));
+                        oos.writeObject(Encryption.encryptObject(new SaveGameObj(null, block.getRow(), block.getCol())));
                 }
             }
             for(Piece piece: ChessStage.kills.blackKilledPieces){
@@ -49,22 +51,22 @@ public class SaveGame {
         File file = new File("savedGameObj.txt");
         ArrayList<PieceObj> blackKills = new ArrayList<>();
         ArrayList<PieceObj> whiteKills = new ArrayList<>();
-        if(file.exists() && file.length()>0){
+        if (file.exists() && file.length() > 0) {
             Game.myStage.startMainGame();
-            try{
+            try {
                 FileInputStream fis = new FileInputStream("savedGameObj.txt");
                 ObjectInputStream ois = new ObjectInputStream(fis);
                 int count = 0;
-                while (true){
-                    try{
-                        if(count<64){
-                            SaveGameObj obj = (SaveGameObj) ois.readObject();
-                            if(obj.pieceObj == null)
-                                Game.blocks[obj.row][obj.col].setPiece(null);
+                while (true) {
+                    try {
+                        if (count < 64) {
+                            String encryptedData = (String) ois.readObject();
+                            SaveGameObj decryptedObject = (SaveGameObj) Encryption.decryptObject(encryptedData);
+                            if (decryptedObject.pieceObj == null)
+                                Game.blocks[decryptedObject.row][decryptedObject.col].setPiece(null);
                             else
-                                Game.blocks[obj.row][obj.col].setPiece(new Piece(obj.pieceObj.pieceType, obj.pieceObj.isBlack, 32));
-                        }
-                        else{
+                                Game.blocks[decryptedObject.row][decryptedObject.col].setPiece(new Piece(decryptedObject.pieceObj.pieceType, decryptedObject.pieceObj.isBlack, 32));
+                        } else {
                             PieceObj obj = (PieceObj) ois.readObject();
                             if(obj.isBlack)
                                 blackKills.add(obj);
@@ -102,6 +104,7 @@ public class SaveGame {
             Game.primaryStage.setScene(Game.scene);
         }
     }
+
     static boolean isSavedGameAvailable(){
         File file = new File("savedGameObj.txt");
         return file.exists() && file.length() > 0;

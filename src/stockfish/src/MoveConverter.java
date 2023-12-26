@@ -7,8 +7,6 @@ public class MoveConverter {
         int[] startCoords = convertAlgebraicToIndices(move.substring(0, 2));
         int[] endCoords = convertAlgebraicToIndices(move.substring(2));
 
-        System.out.println("Starting square: Column " + startCoords[0] + ", Row " + startCoords[1]);
-        System.out.println("Ending square: Column " + endCoords[0] + ", Row " + endCoords[1]);
     }
 
     public static int[] convertAlgebraicToIndices(String algebraic) {

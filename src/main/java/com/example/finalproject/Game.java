@@ -13,7 +13,7 @@ public class Game extends Application {
     static Move move = new Move();
     static ChessBoard chessBoard = new ChessBoard();
     static Group root = new Group();
-    static Player player =new Player();
+    static PlayerTurn player =new PlayerTurn();
     static ChessStage myStage = new ChessStage();
     static SplashScreen splashScreen = new SplashScreen();
     static Stockfish stockfish;

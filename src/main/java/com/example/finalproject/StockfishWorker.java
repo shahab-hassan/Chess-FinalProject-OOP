@@ -20,13 +20,8 @@ public class StockfishWorker extends Task<String> {
             assert coordinates != null;
             Move.selectedRow = coordinates[0];
             Move.selectedCol = coordinates[1];
-
-            PauseTransition pause = new PauseTransition(Duration.millis(500));
-            pause.setOnFinished(event -> {
-                Stockfish.aiSounds(coordinates[2], coordinates[3]);
-                Game.move.movePiece(coordinates[2], coordinates[3]);
-            });
-            pause.play();
+            Stockfish.aiSounds(coordinates[2], coordinates[3]);
+            Game.move.movePiece(coordinates[2], coordinates[3]);
 
         } catch (Exception e) {
             e.printStackTrace();

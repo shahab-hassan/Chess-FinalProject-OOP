@@ -6,20 +6,20 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
-public class Player {
+public class PlayerTurn {
     private Pane pane = new Pane();
     private Text text1 = new Text("Player 1");
     private Text text2 = new Text("Player 2");
 
-    public Pane getPane() {
+    Pane getPane() {
         return pane;
     }
 
-    public Text getText1() {
+    Text getText1() {
         return text1;
     }
 
-    public Text getText2() {
+    Text getText2() {
         return text2;
     }
 

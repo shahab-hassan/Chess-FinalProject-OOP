@@ -192,7 +192,7 @@ public class SplashScreen implements EventHandler<MouseEvent> {
             });
         });
         pauseTransition.play();
-        Game.stockfish=new EasyStockfish();
+        Game.stockfish = new EasyMode();
         return scene;
     }
 
@@ -257,7 +257,7 @@ public class SplashScreen implements EventHandler<MouseEvent> {
                     hardDifficulty.setSelected(false);
                     mediumDifficulty.setSelected(false);
                 }
-                Game.stockfish=new EasyStockfish();
+                Game.stockfish = new EasyMode();
                 easyDifficulty.setSelected(true);
             }
             else if(event.getSource()== mediumDifficulty)
@@ -267,7 +267,7 @@ public class SplashScreen implements EventHandler<MouseEvent> {
                     easyDifficulty.setSelected(false);
                     hardDifficulty.setSelected(false);
                 }
-                Game.stockfish=new MediumStockfish();
+                Game.stockfish=new MediumMode();
                 mediumDifficulty.setSelected(true);
             }
             else if(event.getSource()== hardDifficulty)
@@ -277,7 +277,7 @@ public class SplashScreen implements EventHandler<MouseEvent> {
                     easyDifficulty.setSelected(false);
                     mediumDifficulty.setSelected(false);
                 }
-                Game.stockfish=new HardStockfish();
+                Game.stockfish=new HardMode();
                 hardDifficulty.setSelected(true);
             }
             else{

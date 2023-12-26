@@ -3,13 +3,13 @@ package com.example.finalproject;
 import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderStroke;
 
-class Castle extends Move{
+class Castle extends Move implements specialMovesMethods{
     boolean canBlackShortCastle = true;
     boolean canBlackLongCastle = true;
     boolean canWhiteShortCastle = true;
     boolean canWhiteLongCastle = true;
     @Override
-    void movePiece(int toRow, int toCol){
+    public void movePiece(int toRow, int toCol){
         SaveGame.isGameSaved = false;
         Block selectedBlock = Game.blocks[Move.selectedRow][Move.selectedCol];
         Block destinationBlock = Game.blocks[toRow][toCol];
@@ -123,7 +123,7 @@ class Castle extends Move{
             return false;
         return Game.blocks[7][0].getPiece()!=null && !Game.blocks[7][0].getPiece().isBlack;
     }
-    void showCastleMove(){
+    public void showMoves(){
         Piece selectedPiece = Game.blocks[Move.selectedRow][Move.selectedCol].getPiece();
         if(selectedPiece.type == PieceType.KING){
             if(selectedPiece.isBlack){
@@ -139,6 +139,9 @@ class Castle extends Move{
                     Game.blocks[7][2].getLabel().setBorder(Utilities.applyBorder(MyColors.castleMoveBorderDefault, 5));
             }
         }
+    }
+    public boolean isPossible(){
+        return checkCanBlackLongCastle() || checkCanBlackShortCastle() || checkCanWhiteLongCastle() || checkCanWhiteShortCastle();
     }
     void castleBlack(int toCol){
         if(toCol == 6){

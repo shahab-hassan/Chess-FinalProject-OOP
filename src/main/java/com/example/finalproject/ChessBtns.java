@@ -50,7 +50,7 @@ public class ChessBtns implements EventHandler<MouseEvent> {
         mainMenuBtn.setOnAction(actionEvent -> {
             try {
                 mainMenuBtnAction();
-            } catch (MalformedURLException e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         });
@@ -129,7 +129,7 @@ public class ChessBtns implements EventHandler<MouseEvent> {
     public void handle(MouseEvent mouseEvent) {
         if(mouseEvent.getEventType() == MouseEvent.MOUSE_CLICKED){
             if(mouseEvent.getSource() == undo){
-                if(isPrevious){
+                if(isGameStart && isPrevious){
                     Game.blocks[Move.previousSource.getRow()][Move.previousSource.getCol()].setPiece(Move.previousSource.getPiece());
                     if(Move.previousDestination.getPiece() != null)
                         Game.blocks[Move.previousDestination.getRow()][Move.previousDestination.getCol()].setPiece(Move.previousDestination.getPiece());
@@ -140,7 +140,7 @@ public class ChessBtns implements EventHandler<MouseEvent> {
                 isPrevious = false;
             }
             else{
-                if(!isPrevious){
+                if(isGameStart && !isPrevious){
                     Game.blocks[Move.previousSource.getRow()][Move.previousSource.getCol()].setPiece(null);
                     Game.blocks[Move.previousDestination.getRow()][Move.previousDestination.getCol()].setPiece(Move.previousSource.getPiece());
                     Game.myStage.updateStage();

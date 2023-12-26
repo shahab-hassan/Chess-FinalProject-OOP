@@ -97,6 +97,8 @@ public class Clock {
     }
 
     void startClock(boolean isBlackTurn) {
+        if(Game.chessBoard.ai)
+            return;
         timer1.setCycleCount(Timeline.INDEFINITE);
         timer2.setCycleCount(Timeline.INDEFINITE);
         if (isBlackTurn) {
@@ -110,6 +112,10 @@ public class Clock {
         timer2.stop();
     }
     void resetClock(){
+        if(Game.chessBoard.ai){
+            blackClock.setOpacity(0.5);
+            whiteClock.setOpacity(0.5);
+        }
         blackClock.setText(String.format("%02d:%02d:%02d", 0, originalMinutes, 0));
         whiteClock.setText(String.format("%02d:%02d:%02d", 0, originalMinutes, 0));
         elapsedTime1=originalMinutes*60*1000;

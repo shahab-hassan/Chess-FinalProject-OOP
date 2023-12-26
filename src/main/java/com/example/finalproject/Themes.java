@@ -33,28 +33,20 @@ public class Themes implements EventHandler<MouseEvent> {
         GameAnalysis.progressBar.getStyleClass().clear();
         if(e.getSource() == grayBtn){
             applyGrayTheme();
-            System.out.println("grey");
             Game.myStage.updateStage();
-            GameAnalysis.progressBar.getStyleClass().add("progress-bar2");
         }
         else if(e.getSource() == greenBtn){
             applyGreenTheme();
-            System.out.println("green");
             Game.myStage.updateStage();
-            GameAnalysis.progressBar.getStyleClass().add("progress-bar1");
         }
         else if(e.getSource() == blueBtn){
             applyBlueTheme();
             Game.myStage.updateStage();
-            GameAnalysis.progressBar.getStyleClass().add("progress-bar4");
         }
         else{
             applyRedTheme();
-            System.out.println("red");
             Game.myStage.updateStage();
-            GameAnalysis.progressBar.getStyleClass().add("progress-bar3");
         }
-        System.out.println(convertRGBToHexa(MyColors.darkBlockGreen) + " " + convertRGBToHexa(MyColors.lightBlockGreen));
         ChessStage.clock.getBlackClock().setBackground(Utilities.applyBackground(MyColors.clockBgDefault));
         ChessStage.clock.getWhiteClock().setBackground(Utilities.applyBackground(MyColors.clockBgDefault));
 
@@ -72,6 +64,7 @@ public class Themes implements EventHandler<MouseEvent> {
         MyColors.possibleMoveBorderDefault = MyColors.possibleMoveBorderGray;
         MyColors.dangerPieceBorderDefault = MyColors.dangerPieceBorderGray;
         Game.scene.setFill(MyColors.darkBlockGray);
+        GameAnalysis.progressBar.getStyleClass().add("progress-bar2");
     }
     void applyGreenTheme(){
         MyColors.darkBlockDefault = MyColors.darkBlockGreen;
@@ -82,6 +75,7 @@ public class Themes implements EventHandler<MouseEvent> {
         MyColors.possibleMoveBorderDefault = MyColors.possibleMoveBorderGreen;
         MyColors.dangerPieceBorderDefault = MyColors.dangerPieceBorderGreen;
         Game.scene.setFill(MyColors.darkBlockGreen);
+        GameAnalysis.progressBar.getStyleClass().add("progress-bar1");
     }
     void applyBlueTheme(){
         MyColors.darkBlockDefault = MyColors.darkBlockBlue;
@@ -92,7 +86,7 @@ public class Themes implements EventHandler<MouseEvent> {
         MyColors.possibleMoveBorderDefault = MyColors.possibleMoveBorderBlue;
         MyColors.dangerPieceBorderDefault = MyColors.dangerPieceBorderBlue;
         Game.scene.setFill(MyColors.darkBlockBlue);
-
+        GameAnalysis.progressBar.getStyleClass().add("progress-bar4");
     }
     void applyRedTheme(){
         MyColors.darkBlockDefault = MyColors.darkBlockRed;
@@ -103,7 +97,7 @@ public class Themes implements EventHandler<MouseEvent> {
         MyColors.possibleMoveBorderDefault = MyColors.possibleMoveBorderRed;
         MyColors.dangerPieceBorderDefault = MyColors.dangerPieceBorderRed;
         Game.scene.setFill(MyColors.darkBlockRed);
-
+        GameAnalysis.progressBar.getStyleClass().add("progress-bar3");
     }
     String getGradientColor(Color dark, Color moreDark, Color light, Color moreLight){
         String darkStr = convertRGBToHexa(dark);

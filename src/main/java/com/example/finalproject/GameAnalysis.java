@@ -17,13 +17,8 @@ public class GameAnalysis {
         progressBar.setPrefWidth(280);
         progressBar.setLayoutX(MyDimensions.chessBtnsPaneX+30);
         progressBar.setLayoutY(MyDimensions.chessBtnsPaneY+320);
-        progressBar.setBackground(Background.fill(Color.RED));
         progressBar.setPrefHeight(20);
         progressBar.getStyleClass().add("progress-bar");
-
-
-
-
     }
     static void controlProgressBar()
     {
@@ -38,7 +33,6 @@ public class GameAnalysis {
     }
     static double progressBarCalculations() {
         double value = Game.stockfish.convertPositionToInt();
-        System.out.println(value);
 
         double minValue = -10.0;
         double maxValue = 10.0;

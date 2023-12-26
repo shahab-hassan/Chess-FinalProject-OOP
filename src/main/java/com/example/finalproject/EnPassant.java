@@ -2,10 +2,10 @@ package com.example.finalproject;
 
 import javafx.scene.layout.*;
 
-public class EnPassant extends Move {
+public class EnPassant extends Move implements specialMovesMethods{
     boolean leftSideEnpassant=false;
     boolean rightSideEnpassant=false;
-    boolean isEnpassantPossible()
+    public boolean isPossible()
     {
         Block block=Game.blocks[Move.selectedRow][Move.selectedCol];
         int row = block.getRow();
@@ -50,7 +50,7 @@ public class EnPassant extends Move {
         return false;
     }
     @Override
-    void movePiece(int toRow, int toCol){
+    public void movePiece(int toRow, int toCol){
         if(toRow==selectedRow+2 || toRow==selectedRow-2){
             Game.blocks[selectedRow][selectedCol].getPiece().enPassantRequirement=true;
         }
@@ -83,9 +83,9 @@ public class EnPassant extends Move {
 
 
     }
-    void showEnpassantMoves()
+    public void showMoves()
     {
-        if(isEnpassantPossible())
+        if(isPossible())
         {
             if(leftSideEnpassant){
 

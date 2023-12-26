@@ -6,7 +6,7 @@ import javafx.scene.control.ButtonType;
 
 import java.util.ArrayList;
 
-class Move{
+class Move implements movePieceMethod{
     static int selectedRow = -1;
     static int selectedCol = -1;
     static Block previousSource;
@@ -54,8 +54,8 @@ class Move{
             else
                 Game.blocks[move[0]][move[1]].getLabel().setBorder(Utilities.applyBorder(MyColors.possibleMoveBorderBlue, 3));
         }
-        Game.castle.showCastleMove();
-        Game.enPassant.showEnpassantMoves();
+        Game.castle.showMoves();
+        Game.enPassant.showMoves();
 
     }
 
@@ -75,7 +75,7 @@ class Move{
         return Alerts.promotionChoiceAlert(isBlack);
     }
 
-    void movePiece(int toRow, int toCol){
+    public void movePiece(int toRow, int toCol){
      Game.enPassant.resetEnpassantRequirement();
         Block selectedBlock = Game.blocks[selectedRow][selectedCol];
         Block destinationBlock = Game.blocks[toRow][toCol];
@@ -90,7 +90,6 @@ class Move{
             Sounds.promoteSound();
         }
         Game.chessBoard.isBlackTurn = !Game.chessBoard.isBlackTurn;
-
         ChessStage.chessBtns.isGameStart = true;
         ChessStage.chessBtns.isPrevious = true;
         ChessStage.chessBtns.updateUndoRedoBtns();
@@ -115,9 +114,7 @@ class Move{
                 title = "StaleMate!";
                 headerText = "The game is draw... Play Again?";
             }
-            Platform.runLater(()->{
-                Alerts.showGameOverAlert(title, headerText);
-            });
+            Platform.runLater(()-> Alerts.showGameOverAlert(title, headerText));
         }
         else if(GameOver.isKingInCheck(Game.chessBoard.isBlackTurn))
             Sounds.moveCheckSound();

@@ -1,7 +1,7 @@
 package com.example.finalproject;
 
 public class FenConverter {
-    public static String boardToFEN(Block[][] chessBoard) {
+    static String boardToFEN(Block[][] chessBoard) {
         StringBuilder fen = new StringBuilder();
         for (int row = 0; row < 8; row++) {
             int emptySquares = 0;

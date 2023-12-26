@@ -7,7 +7,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Stockfish  implements BestMoveProcessing{
+abstract class Stockfish  implements BestMoveProcessing {
 
     private Process stockfishProcess;
     private BufferedReader stockfishInput;
@@ -29,7 +29,7 @@ public abstract class Stockfish  implements BestMoveProcessing{
     }
 
     @Override
-   public abstract String getBestMove(String fen) ;
+   public abstract String getBestMove(String fen);
 
     String extractBestMove(String response) {
         String[] lines = response.split("\n");
@@ -50,14 +50,14 @@ public abstract class Stockfish  implements BestMoveProcessing{
         }
     }
     //new method
-    public String evaluatePosition(String fen) {
+    String evaluatePosition(String fen) {
         sendCommand("position fen " + fen);
         sendCommand("eval");
         String response = readEvaluationResponse();
         return extractEvaluationScore(response);
     }
     //new method
-    public double convertPositionToInt()
+    double convertPositionToInt()
     {
         double number=0;
         String s= evaluatePosition(FenConverter.boardToFEN(Game.blocks));
@@ -94,7 +94,7 @@ public abstract class Stockfish  implements BestMoveProcessing{
         return "-20.0";
     }
     //new method
-    public String readEvaluationResponse() {
+    String readEvaluationResponse() {
         List<String> lines = new ArrayList<>();
         try {
             String line;
@@ -147,7 +147,7 @@ public abstract class Stockfish  implements BestMoveProcessing{
         return new int[]{fromRow, fromCol, toRow, toCol};
     }
 
-    public static void aiSounds(int toRow, int toCol) {
+    static void aiSounds(int toRow, int toCol) {
         if (Game.blocks[toRow][toCol].getPiece() == null) {
             Sounds.movePieceSound();
         } else {
